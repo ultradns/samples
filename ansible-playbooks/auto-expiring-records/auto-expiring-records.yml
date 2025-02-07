@@ -1,0 +1,37 @@
+- name: Manage Temporary DNS Records
+  hosts: localhost
+  gather_facts: false
+
+  # Load the encrypted UltraDNS credentials and the list of records to manage.
+  vars_files:
+    - ~/ansible/ultra_vault.yml
+    - records.yml # File containing the DNS records and expiration settings.
+
+  tasks:
+    # Create the DNS records specified in records.yml.
+    - name: Create temporary DNS records
+      ultradns.ultradns.record:
+        zone: "{{ item.zone }}"
+        name: "{{ item.name }}"
+        type: "{{ item.type }}"
+        data: "{{ item.data }}"
+        ttl: 300
+        state: present
+        provider: "{{ ultra_provider }}"
+      loop: "{{ dns_records }}" # Iterate over all records in records.yml.
+
+    # Pause execution for the specified expiration time before removing the records.
+    - name: Wait for expiration time
+      pause:
+        seconds: "{{ expire | default(900) }}" # Default to 15 minutes if not specified.
+
+    # Remove the previously created DNS records after the expiration period.
+    - name: Remove expired DNS records
+      ultradns.ultradns.record:
+        zone: "{{ item.zone }}"
+        name: "{{ item.name }}"
+        type: "{{ item.type }}"
+        data: "{{ item.data }}"
+        state: absent # Delete the record.
+        provider: "{{ ultra_provider }}"
+      loop: "{{ dns_records }}"
