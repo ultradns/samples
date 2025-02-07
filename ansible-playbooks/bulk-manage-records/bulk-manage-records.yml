@@ -1,0 +1,34 @@
+- name: Bulk Manage DNS Records
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ~/ansible/ultra_vault.yml
+    - records.yml
+  vars:
+    dry_run: false
+    default_ttl: 300
+
+  tasks:
+    - name: Validate DNS records before applying
+      fail:
+        msg: "Record {{ item.name }}.{{ item.zone }} is missing required fields!"
+      when: item.zone is not defined or item.name is not defined or item.type is not defined
+      loop: "{{ dns_records }}"
+
+    - name: Show planned DNS changes (Dry Run Mode)
+      debug:
+        msg: "Would apply: {{ item }}"
+      when: dry_run
+      loop: "{{ dns_records }}"
+
+    - name: Apply DNS records
+      ultradns.ultradns.record:
+        zone: "{{ item.zone }}"
+        name: "{{ item.name }}"
+        type: "{{ item.type }}"
+        ttl: "{{ item.ttl | default(default_ttl) }}"
+        state: "{{ item.state }}"
+        provider: "{{ ultra_provider }}"
+        data: "{{ item.data | default(omit) }}"  # Omit if missing
+      when: not dry_run
+      loop: "{{ dns_records }}"

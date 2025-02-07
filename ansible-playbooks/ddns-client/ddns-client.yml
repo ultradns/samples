@@ -1,0 +1,27 @@
+- name: Update Dynamic DNS Record
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ~/ansible/ultra_vault.yml
+
+  tasks:
+    - name: Get current public IP
+      uri:
+        url: http://icanhazip.com
+        return_content: yes
+      register: public_ip
+
+    - name: Sanitize public IP
+      set_fact:
+        sanitized_ip: "{{ public_ip.content | trim }}"
+
+    - name: Update A record with current IP (only if changed)
+      ultradns.ultradns.record:
+        zone: example.com.
+        name: ddns
+        type: A
+        data: "{{ sanitized_ip }}"
+        ttl: 300
+        solo: true
+        state: present
+        provider: "{{ ultra_provider }}"

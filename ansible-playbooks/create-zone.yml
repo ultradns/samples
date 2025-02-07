@@ -1,0 +1,12 @@
+- name: Manage UltraDNS Zone
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ~/ansible/ultra_vault.yml  # Load the encrypted credentials
+  tasks:
+    - name: Create an UltraDNS primary zone
+      ultradns.ultradns.zone:
+        name: example.com.
+        account: myaccount
+        state: present
+        provider: "{{ ultra_provider }}"

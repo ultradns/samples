@@ -1,0 +1,12 @@
+- name: Test Playbook
+  hosts: test_servers
+  become: false  # No sudo needed for these checks
+  tasks:
+    - name: Check if Python is installed
+      shell: python3 --version
+      register: python_version
+      changed_when: false  # Prevents Ansible from thinking this task makes changes
+
+    - name: Print Python version
+      debug:
+        msg: "Python version installed: {{ python_version.stdout }}"
