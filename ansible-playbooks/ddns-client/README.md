@@ -34,7 +34,7 @@ If the public IP differs from the existing A record, the DNS record is updated w
 
 #### Expected Output
 
-![Screenshot of playbook updating the IP](./img.ss2.png)
+![Screenshot of playbook updating the IP](./img/ss2.png)
 
 ## Setting Up A Scheduled Task
 
