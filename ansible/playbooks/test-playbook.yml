@@ -1,5 +1,7 @@
 - name: Test Playbook
-  hosts: test_servers
+  # If you wanted to run this on a group of hosts, specify the group name here
+  # instead, i.e. `test_servers`
+  hosts: localhost
   become: false  # No sudo needed for these checks
 
   tasks:
