@@ -45,14 +45,14 @@ The `--disabled` switch here indicates that everything will be commented out by 
 
 Find the following line:
 
-```toml
+```
 # (pathlist) Comma-separated list of Ansible inventory sources
 ;inventory=/etc/ansible/hosts
 ```
 
 Uncomment it and change the value to `hosts`:
 
-```toml
+```
 inventory=hosts
 ```
 
@@ -62,14 +62,14 @@ We are telling Ansible to use a file relative to it's configuration file for hos
 
 Next, find the following:
 
-```toml
+```
 # (pathspec) Colon-separated paths in which Ansible will search for Roles.
 ;roles_path=/Users/sbarbett/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
 ```
 
 We're going to edit this and change it to `roles`:
 
-```toml
+```
 roles_path=roles
 ```
 
@@ -77,7 +77,7 @@ roles_path=roles
 
 Search for this:
 
-```toml
+```
 # (pathspec) Colon-separated paths in which Ansible will search for collections content. Collections must be in nested *subdirectories*, not directly in these directories. For example, if ``COLLECTIONS_PATHS`` includes ``'{{ ANSIBLE_HOME ~ "/collections" }}'``, and you want to add ``my.collection`` to that directory, it must be saved as ``'{{ ANSIBLE_HOME} ~ "/collections/ansible_collections/my/collection" }}'``.
 
 ;collections_path=/Users/sbarbett/.ansible/collections:/usr/share/ansible/collections
@@ -85,7 +85,7 @@ Search for this:
 
 Update the path to `collections`:
 
-```toml
+```
 collections_path=collections
 ```
 
@@ -93,7 +93,7 @@ collections_path=collections
 
 Finally, find the following:
 
-```toml
+```
 # (boolean) Set this to "False" if you want to avoid host key checking by the underlying connection plugin Ansible uses to connect to the host.
 # Please read the documentation of the specific connection plugin used for details.
 ;host_key_checking=True
@@ -101,7 +101,7 @@ Finally, find the following:
 
 Simply change this to `False` to disable unwanted interactive prompts when creating `ssh` connections.
 
-```toml
+```
 host_key_checking=False
 ```
 
@@ -116,7 +116,7 @@ echo -e "[test_servers]\nlocalhost ansible_connection=local" > hosts
 
 In Ansible, a host is the context within which your Ansible plays will be executed. In many cases, this will just be your `localhost`, but it can also be a remote server over `ssh`. Edit the `hosts` file and add the `ansible_python_interpreter` flag to the end of your localhost directory:
 
-```toml
+```
 [test_servers]
 localhost ansible_connection=local ansible_python_interpreter=<path_to_your_venv_python_binary>
 ```
@@ -129,7 +129,7 @@ _Note:_ You can also disable the Python discoverer warning messages in your conf
 
 While not required to follow along with this guide, if you want to add a remote host to your `hosts` file, simply add a new line to the `test_servers` grouping.
 
-```toml
+```
 remote_host ansible_host=<remote_host_ip_or_hostname> ansible_user=<ssh_username> ansible_ssh_private_key_file=<~/.ssh/your_key>
 ```
 
@@ -257,7 +257,7 @@ It's ill-advised that you store this in your Ansible environment. Use your home 
 
 You can specify this directory in your `ansible.cfg`, which I suggest doing:
 
-```toml
+```
 # (path) The vault password file to use. Equivalent to ``--vault-password-file`` or ``--vault-id``.
 # If executable, it will be run and the resulting stdout will be used as the password.
 ;vault_password_file=
@@ -277,8 +277,8 @@ Enter your vault password when prompted.
 
 #### Expected Output
 
-![Screenshot of test zone creation output](./img/ss2.png)
+![Screenshot of test zone creation output](./img/ss2-19022025.png)
 
 You should also see the newly created zone in the UltraDNS user interface.
 
-![Screenshot of newly created test zone in UI](./img/ss3.png)
+![Screenshot of newly created test zone in UI](./img/ss3-19022025.png)
