@@ -1,0 +1,13 @@
+---
+- name: Manage UltraDNS Zone
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    # Delete the test zone created by `create-zone.yml`
+    - name: Delete an UltraDNS primary zone
+      ultradns.ultradns.zone:
+        name: "{{ test_zone_name }}"
+        account: "{{ test_account_name }}"
+        state: absent # Tells Ansible to remove the zone if it is present
+        provider: "{{ ultra_provider }}" 

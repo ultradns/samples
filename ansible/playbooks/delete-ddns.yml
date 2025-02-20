@@ -1,0 +1,13 @@
+---
+# This role will delete a DDNS client and its associated record
+- name: Destroy DDNS Client
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - role: ultradns.dnsops.ddns_client
+      vars:
+        ddns_base_dir: "~/ddns_client" # Directory to create
+        zone: "{{ test_zone_name }}" # Zone to update
+        host: "ddns" # Hostname to update
+        state: absent

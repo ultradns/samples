@@ -1,0 +1,46 @@
+---
+- name: Manage UltraDNS Records
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    # Create some record in your test zone. These operations will fail if the zone
+    # doesn't exist. 
+    - name: "Create {{ test_host_name }}.{{ test_zone_name }} A record with default TTL"
+      ultradns.ultradns.record:
+        zone: "{{ test_zone_name }}"
+        name: "{{ test_host_name }}"
+        type: A
+        data: 127.0.0.1
+        state: present
+        provider: "{{ ultra_provider }}"
+
+    - name: "Create a null MX record for {{ test_zone_name }}"
+      ultradns.ultradns.record:
+        zone: "{{ test_zone_name }}"
+        name: "@"
+        type: MX
+        data: 0 .
+        state: present
+        provider: "{{ ultra_provider }}"
+
+    - name: "Add a TXT record to {{ test_host_name }}.{{ test_zone_name }}"
+      ultradns.ultradns.record:
+        zone: "{{ test_zone_name }}"
+        name: "{{ test_host_name }}"
+        type: TXT
+        ttl: "{{ test_ttl }}"
+        data: "txt example"
+        state: present
+        provider: "{{ ultra_provider }}"
+
+    - name: "Add a second TXT record to {{ test_host_name }}.{{ test_zone_name }}"
+      ultradns.ultradns.record:
+        zone: "{{ test_zone_name }}"
+        name: "{{ test_host_name }}"
+        type: TXT
+        ttl: "{{ test_ttl }}"
+        data: "asdfghjkl"
+        solo: false
+        state: present
+        provider: "{{ ultra_provider }}"

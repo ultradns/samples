@@ -1,0 +1,23 @@
+---
+- name: Manage UltraDNS Records
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    # Delete some records created by `create-records.yml`.
+    - name: "Remove the first TXT record from {{ test_host_name }}.{{ test_zone_name }}"
+      ultradns.ultradns.record:
+        zone: "{{ test_zone_name }}"
+        name: "{{ test_host_name }}"
+        type: TXT
+        data: "txt example"
+        state: absent
+        provider: "{{ ultra_provider }}"
+
+    - name: "Remove all MX records from the apex of {{ test_zone_name }}"
+      ultradns.ultradns.record:
+        zone: "{{ test_zone_name }}"
+        name: "@"
+        type: MX
+        state: absent
+        provider: "{{ ultra_provider }}"

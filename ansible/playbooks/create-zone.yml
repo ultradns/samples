@@ -1,3 +1,4 @@
+---
 - name: Manage UltraDNS Zone
   hosts: localhost
   gather_facts: false
