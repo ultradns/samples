@@ -1,0 +1,25 @@
+---
+- name: Bulk Update DNS Records
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    # This role will iterate through a list of zones and automatically create records within them
+    - role: ultradns.dnsops.bulk_record_update
+      vars:
+        create_zones: true # Create zones if they do not exist
+        account: "{{ test_account_name }}" # Account name
+        zones: # List of zones to create
+          - "{{ test_zone_name }}"
+          - "{{ test_zone_name_2 }}"
+          - "{{ test_zone_name_3 }}"
+        records: # List of records to add
+          - name: "{{ test_host_name }}" # Record name
+            type: TXT # Record type
+            data: "hello world" # Record data
+            ttl: "{{ test_ttl }}" # Record TTL
+          - name: "{{ test_host_name }}"
+            type: A
+            solo: true # Only one record of this type (alternatively, it will create an RD pool)
+            data: 192.168.1.1
+            ttl: "{{ test_ttl }}"

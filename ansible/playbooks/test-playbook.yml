@@ -1,0 +1,19 @@
+---
+- name: Test Playbook
+  # If you wanted to run this on a group of hosts, specify the group name here
+  # instead, i.e. `test_servers`
+  hosts: localhost
+  become: false  # No sudo needed for these checks
+
+  tasks:
+    # Check if Python is installed by running `python3 --version`
+    # The output of this command is stored in the `python_version` variable.
+    - name: Check if Python is installed
+      shell: python3 --version
+      register: python_version
+      changed_when: false  # Prevents Ansible from thinking this task makes changes
+
+    # Print the detected Python version using Ansible's debug module.
+    - name: Print Python version
+      debug:
+        msg: "Python version installed: {{ python_version.stdout }}"

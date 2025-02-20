@@ -1,0 +1,46 @@
+---
+# This role will handle the setup of Docker on the host machine. If Docker is
+# already installed, or if you prefer to handle the installation manually,
+# leave this section commented out.
+#
+# For more information see: 
+#   - https://galaxy.ansible.com/ui/standalone/roles/geerlingguy/docker/
+#
+# - name: Run Docker Setup On Host
+#   hosts: localhost
+#   gather_facts: yes
+#   become: yes
+
+#   roles:
+#     - role: geerlingguy.docker
+#       vars:
+#         docker_edition: 'ce'
+#         docker_service_state: started
+#         docker_service_enabled: true
+#         docker_packages:
+#           - "docker-{{ docker_edition }}"
+#           - "docker-{{ docker_edition }}-cli"
+#           - "docker-{{ docker_edition }}-rootless-extras"
+#         docker_packages_state: present
+#         docker_install_compose_plugin: true
+#         docker_compose_package: docker-compose-plugin
+#         docker_compose_package_state: present
+#         docker_users:
+#           - "{{ ansible_user }}"
+
+# This role will handle the setup of the DDNS client
+- name: Deploy DDNS Client
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - role: ultradns.dnsops.ddns_client
+      vars:
+        ddns_base_dir: "~/ddns_client" # Directory to create
+        zone: "{{ test_zone_name }}" # Zone to update
+        host: "ddns" # Hostname to update
+        # Default is every minute
+        #cron_expression: "*/5 * * * *"
+        vault_file: "../group_vars/test_servers/vault" # Path to the vault file
+        vault_pass_file: "~/.vault-password" # Path to the vault password file
+        state: present

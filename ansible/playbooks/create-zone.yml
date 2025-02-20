@@ -1,0 +1,20 @@
+---
+- name: Manage UltraDNS Zone
+  hosts: localhost
+  gather_facts: false
+
+  # Load the encrypted credentials from an Ansible Vault file if you stored it somewhere
+  # other than your group vars.
+  # vars_files:
+  #   - ~/path/to/vault
+
+  tasks:
+    # Create a primary DNS zone in UltraDNS.
+    # This ensures that the test zone defined in your group variables exists in your UltraDNS 
+    # account.
+    - name: Create an UltraDNS primary zone
+      ultradns.ultradns.zone:
+        name: "{{ test_zone_name }}" # The fully qualified domain name (FQDN) of the zone.
+        account: "{{ test_account_name }}" # The UltraDNS account to associate the zone with.
+        state: present # Ensures the zone is created if it doesn't exist.
+        provider: "{{ ultra_provider }}" # Uses authentication details from the Vault file.
