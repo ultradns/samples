@@ -64,7 +64,7 @@ Next, find the following:
 
 ```
 # (pathspec) Colon-separated paths in which Ansible will search for Roles.
-;roles_path=/Users/sbarbett/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+;roles_path=/Users/username/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
 ```
 
 Edit it to use a local directory by changing it to:
@@ -80,7 +80,7 @@ Search for this line:
 ```
 # (pathspec) Colon-separated paths in which Ansible will search for collections content. Collections must be in nested *subdirectories*, not directly in these directories. For example, if ``COLLECTIONS_PATHS`` includes ``'{{ ANSIBLE_HOME ~ "/collections" }}'``, and you want to add ``my.collection`` to that directory, it must be saved as ``'{{ ANSIBLE_HOME} ~ "/collections/ansible_collections/my/collection" }}'``.
 
-;collections_path=/Users/sbarbett/.ansible/collections:/usr/share/ansible/collections
+;collections_path=/Users/username/.ansible/collections:/usr/share/ansible/collections
 ```
 
 Update the path to use a local directory:
@@ -196,10 +196,10 @@ ansible-galaxy collection install ultradns.ultradns
 
 ### Install `requests`
 
-The UltraDNS plugins require the Python `requests` module. Install it using:
+The UltraDNS plugins require the Python `ultra_rest_client` module. Install it using:
 
 ```bash
-pip install requests
+pip install ultra_rest_client
 ```
 
 ### Set Up a Directory for Variables
